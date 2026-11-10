@@ -49,5 +49,117 @@ Cette activité porte sur la création et l'utilisation des fonctions en PHP.
 - Récursivité.
 
 **Fichiers :**
-- `fonctions.php` :
-- 
+- `fonctions.php` : définition des fonctions.
+- `test.php` : exécution et vérification des fonctions.
+
+### 2. Exercice 2 — Les tableaux indexés
+
+Cet exercice permet de découvrir la manipulation des tableaux en PHP.
+
+**Notions abordées :**
+
+- Création et lecture des tableaux.
+- Parcours avec `for` et `foreach`.
+- Ajout d'éléments avec `array_push`.
+- Suppression avec `array_pop`, `array_shift` et `unset`.
+- Insertion avec `array_splice`.
+- Recherche avec `in_array` et `array_search`.
+- Statistiques : somme, moyenne, minimum, maximum et médiane.
+- Tri croissant et décroissant.
+- Utilisation de `array_map`, `array_filter` et `array_reduce`.
+- Manipulation des chaînes avec `implode` et `explode`.
+- Fusion et comparaison de tableaux.
+- Création de fonctions personnalisées.
+
+**Fichier :**
+- `tableaux.php`
+
+## Technologies utilisées
+
+<div align="center">
+
+<img src="https://skillicons.dev/icons?i=php" alt="PHP" />
+
+</div>
+
+| Technologie | Utilisation |
+|---|---|
+| PHP | Développement des exercices et algorithmes |
+| GitHub | Hébergement et partage du code |
+
+## Structure du projet
+
+```text
+php-backend-M205/
+│
+├── activite1-fonctions/
+│   ├── fonctions.php
+│   └── test.php
+│
+├── exercice2-tableaux-indexes/
+│   └── tableaux.php
+│
+└── README.md
+```
+
+## Installation et exécution
+
+### Prérequis
+
+- Installer PHP.
+- Disposer d'un éditeur de code.
+- Avoir accès à un terminal.
+
+### 1. Cloner le dépôt
+
+```bash
+git clone https://github.com/ichrakelhaymer/php-backend-M205.git
+```
+
+### 2. Accéder au projet
+
+```bash
+cd php-backend-M205
+```
+
+### 3. Exécuter les exercices
+
+Pour l'activité sur les fonctions :
+
+```bash
+php activite1-fonctions/test.php
+```
+
+Pour l'exercice sur les tableaux :
+
+```bash
+php exercice2-tableaux-indexes/tableaux.php
+```
+
+## Concepts PHP illustrés
+
+| Concept | Exemples utilisés |
+|---|---|
+| Fonctions | `function`, `return` |
+| Conditions | `if`, `elseif`, `else` |
+| Boucles | `for`, `foreach`, `while` |
+| Tableaux | `array_push`, `array_pop` |
+| Recherche | `in_array`, `array_search` |
+| Transformation | `array_map`, `array_filter` |
+| Calculs | `array_sum`, `min`, `max` |
+| Récursivité | `puissanceRecursive()` |
+| Gestion des erreurs | `try`, `catch`, `throw` |
+
+## Auteur
+
+**Ichrak El Haymer**
+
+[GitHub](https://github.com/ichrakelhaymer)
+
+---
+
+<div align="center">
+
+**php-backend-M205 — Apprendre, pratiquer et progresser en PHP.**
+
+</div>
