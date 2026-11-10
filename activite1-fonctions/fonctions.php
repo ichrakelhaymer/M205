@@ -187,7 +187,7 @@ function puissance(float $x, int $n): float
 }
 
 
-// Puissance avec récursivité
+// puissance recursive
 function puissanceRecursive(float $x, int $n): float
 {
     if ($n === 0) {
