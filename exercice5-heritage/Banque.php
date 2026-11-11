@@ -1,97 +1,81 @@
 <?php
 declare(strict_types=1);
 
-abstract class CompteBancaire
+require_once __DIR__ . "/CompteBancaire.php";
+require_once __DIR__ . "/CompteEpargne.php";
+require_once __DIR__ . "/CompteCourant.php";
+
+class Banque
 {
-    private string $numero;
-    private string $titulaire;
-    protected float $solde;
+    private array $comptes = [];
+    private string $nom;
 
-    private static int $nombreComptes = 0;
+    public function __construct(string $nom)
+    {
+        $this->nom = $nom;
+    }
 
-    public const DEVISE = "MAD";
-    public const PLAFOND_RETRAIT = 5000.0;
+    public function ajouterCompte(CompteBancaire $compte): void
+    {
+        $numero = $compte->getNumero();
 
-    public function __construct(
-        string $numero,
-        string $titulaire,
-        float $soldeInitial = 0.0
-    ) {
-        if (!self::estNumeroValide($numero)) {
-            throw new InvalidArgumentException("Numero invalide");
+        if (isset($this->comptes[$numero])) {
+            throw new InvalidArgumentException("Compte deja existant");
         }
-        if ($soldeInitial < 0) {
-            throw new InvalidArgumentException("Solde invalide");
-        }
-        $this->numero = $numero;
-        $this->titulaire = $titulaire;
-        $this->solde = $soldeInitial;
-        self::$nombreComptes++;
+
+        $this->comptes[$numero] = $compte;
     }
 
-    public function getNumero(): string
+    public function trouverCompte(string $numero): ?CompteBancaire
     {
-        return $this->numero;
-    }
-    public function getTitulaire(): string
-    {
-        return $this->titulaire;
-    }
-    public function getSolde(): float
-    {
-        return $this->solde;
+        return $this->comptes[$numero] ?? null;
     }
 
-    public function setTitulaire(string $titulaire): void
+    public function totalDepots(): float
     {
-        $this->titulaire = $titulaire;
-    }
-    public function deposer(float $montant): void
-    {
-        if ($montant <= 0) {
-            throw new InvalidArgumentException("Montant invalide");
+        $total = 0;
+
+        foreach ($this->comptes as $compte) {
+            $total += $compte->getSolde();
         }
-        $this->solde += $montant;
+
+        return $total;
     }
 
-    public function retirer(float $montant): void
+    public function crediterInterets(): int
     {
-        if ($montant <= 0) {
-            throw new InvalidArgumentException("Montant invalide");
+        $nombre = 0;
+
+        foreach ($this->comptes as $compte) {
+            if ($compte instanceof CompteEpargne) {
+                $compte->ajouterInterets();
+                $nombre++;
+            }
         }
-        if ($montant > self::PLAFOND_RETRAIT) {
-            throw new InvalidArgumentException("Plafond de retrait depasse");
-        }
-        if ($montant > $this->soldeDisponible()) {
-            throw new InvalidArgumentException("Solde insuffisant");
-        }
-        $this->solde -= $montant;
+
+        return $nombre;
     }
 
-    public function virerVers(CompteBancaire $compte, float $montant): void
+    public function afficherComptes(): void
     {
-        $this->retirer($montant);
-        $compte->deposer($montant);
+        foreach ($this->comptes as $compte) {
+            echo $compte . "<br>";
+        }
     }
-    protected function soldeDisponible(): float
-    {
-        return $this->solde;
-    }
-    abstract public function getType(): string;
 
-    public function __toString(): string
+    public function comptesParType(): array
     {
-        return "[" . $this->getType() . "] " .
-            $this->numero . " - " .
-            $this->titulaire . " : " .
-            number_format($this->solde, 2) . " " . self::DEVISE;
-    }
-    public static function getNombreComptes(): int
-    {
-        return self::$nombreComptes;
-    }
-    public static function estNumeroValide(string $numero): bool
-    {
-        return preg_match('/^CB\d{6}$/', $numero) === 1;
+        $resultat = [];
+
+        foreach ($this->comptes as $compte) {
+            $type = $compte->getType();
+
+            if (!isset($resultat[$type])) {
+                $resultat[$type] = 0;
+            }
+
+            $resultat[$type]++;
+        }
+        return $resultat;
     }
 }
